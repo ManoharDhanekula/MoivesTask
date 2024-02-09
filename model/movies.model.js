@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "./config.js";
+import { sequelize } from "../config.js";
 
-export const Movies = sequelize.define(
+const Movies = sequelize.define(
   "Movies",
   {
     // Model attributes are defined here
@@ -43,3 +43,5 @@ export const Movies = sequelize.define(
 
 // `sequelize.define` also returns the model
 console.log(Movies === sequelize.models.Movies); // true
+
+export { Movies };
