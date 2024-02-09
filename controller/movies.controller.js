@@ -1,9 +1,9 @@
-// import { Movies } from "../model/movies.model.js";
+import { Movies } from "../model/movies.model.js";
 import moviesService from "../service/movies.service.js";
 
 async function getAllMovieData(request, response) {
-  const movieData = moviesService.displayingData;
-  response.send(movieData);
+  const movieData = moviesService.displayingData();
+  response.send(await movieData);
 }
 
 async function postDataByID(request, response) {
@@ -19,7 +19,7 @@ async function postDataByID(request, response) {
   );
   const not_Found = { msg: "Not Inserted" };
   moviesDataPost
-    ? response.send(moviesDataPost)
+    ? response.send(await moviesDataPost)
     : response.status(404).send(not_Found);
 }
 
@@ -28,7 +28,9 @@ async function getMovieDataByID(request, response) {
   const { id } = request.params;
 
   const movieData = moviesService.findByID(id);
-  movieData ? response.send(movieData) : response.status(404).send(not_Found);
+  movieData
+    ? response.send(await movieData)
+    : response.status(404).send(not_Found);
 }
 
 async function putMovieDataByID(request, response) {
@@ -46,7 +48,7 @@ async function putMovieDataByID(request, response) {
   );
   const not_Found = { msg: "Not Updated" };
   moviesDataUpdate
-    ? response.send(moviesDataUpdate)
+    ? response.send(await moviesDataUpdate)
     : response.status(404).send(not_Found);
 }
 

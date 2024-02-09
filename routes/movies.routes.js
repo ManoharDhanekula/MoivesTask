@@ -1,6 +1,6 @@
 import express from "express";
-// import { Movies } from "../model/movies.model.js";
 import moviesController from "../controller/movies.controller.js";
+import { Movies } from "../model/movies.model.js";
 const route = express.Router();
 
 // const movies1 = await Movies.create({
