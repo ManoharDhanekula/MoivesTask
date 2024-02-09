@@ -16,6 +16,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT;
 
+app.get("/", (request, response) => {
+  response.send("Hello, world");
+});
+
 app.use("/movies", moviesRoute);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
