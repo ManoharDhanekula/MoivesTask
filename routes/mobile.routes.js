@@ -1,6 +1,7 @@
 import express from "express";
 import mobileController from "../controller/mobile.controller.js";
-import { Mobile } from "../model/Mobile.model.js";
+import { Mobile } from "../model/mobile.model.js";
+
 const route = express.Router();
 
 // const movies1 = await Movies.create({
