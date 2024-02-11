@@ -1,4 +1,4 @@
-import { Mobile } from "../model/Mobile.model.js";
+import { Mobile } from "../model/mobile.model.js";
 
 async function displayingData() {
   return await Mobile.findAll();
