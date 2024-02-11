@@ -1,7 +1,7 @@
 import express from "express";
 import { sequelize } from "./config.js";
 import moviesRoute from "./routes/movies.routes.js";
-
+import mobileRoute from "./routes/mobile.routes.js";
 // import { Movies } from "./movies.js";
 try {
   await sequelize.authenticate();
@@ -20,6 +20,6 @@ app.get("/", (request, response) => {
   response.send("Hello, world");
 });
 
-app.use("/movies", moviesRoute);
-
+//app.use("/movies", moviesRoute);
+app.use("/mobile", mobileRoute);
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
