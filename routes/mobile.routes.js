@@ -5,8 +5,9 @@ const route = express.Router();
 
 route
   .route("/")
-  .get(mobileController.getAllMobileData)
-  .post(mobileController.postDataByID);
+  // .get(mobileController.getAllMobileData)
+  // .post(mobileController.postDataByID)
+  .get(mobileController.paginationForMobilesData);
 
 route
   .route("/:id")

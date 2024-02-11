@@ -25,6 +25,22 @@ async function postDataByID(request, response) {
     : response.status(404).send(not_Found);
 }
 
+async function paginationForMobilesData(req, res) {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  const { count, rows } = await mobileService.paginationForMobile(page, limit);
+
+  const totalPages = Math.ceil(count / limit);
+
+  res.send({
+    currentPage: page,
+    totalPages: totalPages,
+    totalCount: count,
+    data: rows,
+  });
+}
+
 async function getMobileDataByID(request, response) {
   const not_Found = { msg: "Mobile Not Found" };
   const { id } = request.params;
@@ -70,6 +86,7 @@ async function deleteMobileDataByID(request, response) {
 export default {
   getAllMobileData,
   postDataByID,
+  paginationForMobilesData,
   getMobileDataByID,
   putMobileDataByID,
   deleteMobileDataByID,

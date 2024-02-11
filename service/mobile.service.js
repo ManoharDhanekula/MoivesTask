@@ -17,6 +17,15 @@ async function postingData(brand, title, url, rating, image, os, ram, price) {
   });
 }
 
+async function paginationForMobile(page, limit) {
+  return await Mobile.findAndCountAll({
+    offset: (page - 1) * limit,
+    limit: limit,
+    // where: {},
+    order: [["id"]],
+  });
+}
+
 async function findByID(id) {
   return await Mobile.findOne({
     where: {
@@ -57,6 +66,7 @@ async function distoryMobileDataByID(id) {
 export default {
   displayingData,
   postingData,
+  paginationForMobile,
   findByID,
   updatingMobileDataByID,
   distoryMobileDataByID,
