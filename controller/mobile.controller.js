@@ -41,15 +41,6 @@ async function paginationForMobilesData(request, response) {
     const mobileData = mobileService.displayingData();
     response.send(await mobileData);
   }
-
-  // const totalPages = Math.ceil(count / limit);
-
-  // res.send({
-  //   currentPage: page,
-  //   totalPages: totalPages,
-  //   totalCount: count,
-  //   data: rows,
-  // });
 }
 
 async function getMobileDataByID(request, response) {
