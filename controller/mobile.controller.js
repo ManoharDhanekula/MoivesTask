@@ -53,13 +53,19 @@ async function paginationForMobilesData(request, response) {
 }
 
 async function getMobileDataByID(request, response) {
-  const not_Found = { msg: "Mobile Not Found" };
+  const not_Found = { msg: "Not Found" };
   const { id } = request.params;
-
-  const mobileData = mobileService.findByID(id);
-  mobileData
-    ? response.send(await mobileData)
-    : response.status(404).send(not_Found);
+  if (!isNaN(id)) {
+    const mobileData = mobileService.findByID(id);
+    mobileData
+      ? response.send(await mobileData)
+      : response.status(404).send(not_Found);
+  } else {
+    const mobileData = mobileService.findByBrand(id);
+    mobileData
+      ? response.send(await mobileData)
+      : response.status(404).send(not_Found);
+  }
 }
 
 async function putMobileDataByID(request, response) {

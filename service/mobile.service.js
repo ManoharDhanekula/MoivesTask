@@ -26,6 +26,14 @@ async function paginationForMobile(page, limit) {
   });
 }
 
+async function findByBrand(brand) {
+  return await Mobile.findAll({
+    where: {
+      brand: brand,
+    },
+  });
+}
+
 async function findByID(id) {
   return await Mobile.findOne({
     where: {
@@ -67,6 +75,7 @@ export default {
   displayingData,
   postingData,
   paginationForMobile,
+  findByBrand,
   findByID,
   updatingMobileDataByID,
   distoryMobileDataByID,
