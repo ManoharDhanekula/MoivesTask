@@ -1,10 +1,5 @@
 import mobileService from "../service/mobile.service.js";
 
-async function getAllMobileData(request, response) {
-  const mobileData = mobileService.displayingData();
-  response.send(await mobileData);
-}
-
 async function postDataByID(request, response) {
   console.log(request.body);
 
@@ -25,20 +20,36 @@ async function postDataByID(request, response) {
     : response.status(404).send(not_Found);
 }
 
-async function paginationForMobilesData(req, res) {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+async function paginationForMobilesData(request, response) {
+  const page = parseInt(request.query.page);
+  const limit = parseInt(request.query.limit);
 
-  const { count, rows } = await mobileService.paginationForMobile(page, limit);
+  if ((page, limit)) {
+    const { count, rows } = await mobileService.paginationForMobile(
+      page,
+      limit
+    );
+    const totalPages = Math.ceil(count / limit);
 
-  const totalPages = Math.ceil(count / limit);
+    response.send({
+      currentPage: page,
+      totalPages: totalPages,
+      totalCount: count,
+      data: rows,
+    });
+  } else {
+    const mobileData = mobileService.displayingData();
+    response.send(await mobileData);
+  }
 
-  res.send({
-    currentPage: page,
-    totalPages: totalPages,
-    totalCount: count,
-    data: rows,
-  });
+  // const totalPages = Math.ceil(count / limit);
+
+  // res.send({
+  //   currentPage: page,
+  //   totalPages: totalPages,
+  //   totalCount: count,
+  //   data: rows,
+  // });
 }
 
 async function getMobileDataByID(request, response) {
@@ -84,7 +95,6 @@ async function deleteMobileDataByID(request, response) {
 }
 
 export default {
-  getAllMobileData,
   postDataByID,
   paginationForMobilesData,
   getMobileDataByID,
