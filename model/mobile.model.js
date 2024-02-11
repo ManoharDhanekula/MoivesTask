@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config.js";
 
 const Mobile = sequelize.define(
-  "Mobiles",
+  "Mobile",
   {
     // Model attributes are defined here
     brand: {
