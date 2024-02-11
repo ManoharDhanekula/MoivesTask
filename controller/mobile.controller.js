@@ -22,9 +22,9 @@ async function postDataByID(request, response) {
 
 async function paginationForMobilesData(request, response) {
   const page = parseInt(request.query.page);
-  const limit = parseInt(request.query.limit);
+  const limit = parseInt(request.query.limit) || 10;
 
-  if ((page, limit)) {
+  if (page) {
     const { count, rows } = await mobileService.paginationForMobile(
       page,
       limit
