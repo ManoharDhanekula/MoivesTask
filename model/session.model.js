@@ -14,12 +14,17 @@ const session = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    expiry: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
   },
   {
     // Other model options go here
   }
 );
 session.belongsTo(users, { foreignKey: "user_id" });
+users.hasMany(session, { foreignKey: "user_id" });
 // `sequelize.define` also returns the model
 console.log(session === sequelize.models.session); // true
 

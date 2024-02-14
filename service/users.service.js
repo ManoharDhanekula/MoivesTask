@@ -1,6 +1,7 @@
 import { users } from "../model/users.model.js";
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
+import { session } from "../model/session.model.js";
 
 async function displayingData() {
   return await users.findAll();
@@ -53,10 +54,51 @@ const uploadImage = async (imagePath) => {
   }
 };
 
+async function userAvatar(token, url) {
+  const checkToken = await session.findOne({
+    where: {
+      token: token,
+      expiry: false,
+    },
+  });
+  console.log(checkToken);
+  if (checkToken) {
+    return await users.update(
+      { avatar: url },
+      {
+        where: {
+          id: checkToken.dataValues.user_id,
+        },
+      }
+    );
+  } else {
+    return { msg: "Login Again" };
+  }
+}
+
+async function getuserDataById(id, token) {
+  const checkId = await users.findOne({
+    where: {
+      id: id,
+    },
+  });
+  const checkToken = await session.update(
+    { expiry: true },
+    {
+      where: {
+        token: token,
+        user_id: checkId.dataValues.id,
+      },
+    }
+  );
+}
+
 export default {
   displayingData,
   postingData,
   distoryMovieDataByID,
   getUserbyname,
   uploadImage,
+  userAvatar,
+  getuserDataById,
 };

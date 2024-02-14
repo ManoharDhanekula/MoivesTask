@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config.js";
 import { role } from "./role.model.js";
 // import { session } from "./session.model.js";
+// import { session } from "./session.model.js";
 
 const users = sequelize.define(
   "users",
@@ -26,7 +27,7 @@ const users = sequelize.define(
   }
 );
 users.belongsTo(role, { foreignKey: "roleId" });
-// users.hasMany(session, { foreignKey: "user_id" });
+role.hasMany(users, { foreignKey: "roleId" });
 // `sequelize.define` also returns the model
 console.log(users === sequelize.models.users); // true
 

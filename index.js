@@ -25,7 +25,7 @@ try {
 //   roleid: 22,
 // });
 
-// users.findAll({
+// const join = await users.findAll({
 //   include: [
 //     {
 //       model: session,
@@ -34,6 +34,8 @@ try {
 //     },
 //   ],
 // });
+
+// console.log(join);
 
 const app = express();
 app.use(express.json()); // mibble-ware

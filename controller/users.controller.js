@@ -53,6 +53,7 @@ async function loginUserData(request, response) {
       const user1 = await session.create({
         user_id: dbCheck.id,
         token: token,
+        expiry: "n",
       });
       response.send({ msg: "Successfull Login", token: token });
     } else {
@@ -64,15 +65,24 @@ async function loginUserData(request, response) {
 async function userAvatar(request, response) {
   console.log(request.file);
   const imagePath = request.file.path;
+  const tokenId = request.header("x-auth-token");
   const publicId = await usersService.uploadImage(imagePath);
-  // users.findAll({
-  //   include: [{
-  //     model: Task,
-  //     required: true,
-  //     right: true // has no effect, will create an inner join
-  //   }]
-  // });
-  response.send({ msg: "Upload", url: publicId.secure_url });
+  const userAvatarUpadte = usersService.userAvatar(
+    tokenId,
+    publicId.secure_url
+  );
+  response.send({
+    msg: "Upload",
+    url: publicId.secure_url,
+  });
+}
+
+async function expiryLogout(request, response) {
+  const { id } = request.params;
+  const tokenId = request.header("x-auth-token");
+  const userAvatarUpadte = usersService.getuserDataById(id, tokenId);
+
+  response.send("LogOut SucessFully");
 }
 
 export default {
@@ -81,11 +91,5 @@ export default {
   deleteUserDataByID,
   loginUserData,
   userAvatar,
+  expiryLogout,
 };
-
-// const user1 = await users.create({
-//   avatar: publicId.secure_url,
-//   where: {
-//     username: username,
-//   },
-// });

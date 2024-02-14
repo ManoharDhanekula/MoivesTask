@@ -24,6 +24,10 @@ route.route("/signUp").post(usersController.postDataByID);
 route.route("/:id").delete(usersController.deleteUserDataByID);
 route.route("/signIn").post(usersController.loginUserData);
 
-route.route("/pic").post(upload.single("avatar"), usersController.userAvatar);
+route
+  .route("/pic")
+  .post(auth, upload.single("avatar"), usersController.userAvatar);
+
+route.route("/logOut/:id").post(usersController.expiryLogout);
 
 export default route;
