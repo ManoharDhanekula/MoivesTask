@@ -25,8 +25,24 @@ async function postDataByID(request, response) {
 }
 
 async function getUserData(request, response) {
-  const userData = usersService.displayingData();
-  response.send(await userData);
+  const tokenId = request.header("x-auth-token");
+  const sessionToken = await usersService.sessionCheckToken(tokenId);
+  const findingUserRoleID = await usersService.checkingRoleID(
+    sessionToken.dataValues.user_id
+  );
+  console.log(sessionToken.dataValues.user_id);
+  // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
+  console.log(findingUserRoleID.dataValues.role_id);
+  if (findingUserRoleID.dataValues.role_id == 3) {
+    try {
+      const userData = usersService.displayingData();
+      response.send(await userData);
+    } catch (err) {
+      response.send({ msg: err });
+    }
+  } else {
+    response.send("NoT Authorization");
+  }
 }
 
 async function deleteUserDataByID(request, response) {
