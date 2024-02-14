@@ -2,6 +2,12 @@ import { users } from "../model/users.model.js";
 import usersService from "../service/users.service.js";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
+import { v2 as cloudinary } from "cloudinary";
+import { session } from "../model/session.model.js";
+
+cloudinary.config({
+  secure: true,
+});
 
 async function postDataByID(request, response) {
   console.log(request.body);
@@ -44,6 +50,10 @@ async function loginUserData(request, response) {
     const isPasswordChecked = await bcrypt.compare(password, storedPassword);
     if (isPasswordChecked) {
       const token = Jwt.sign({ id: dbCheck.id }, process.env.SECRET_KEY);
+      const user1 = await session.create({
+        user_id: dbCheck.id,
+        token: token,
+      });
       response.send({ msg: "Successfull Login", token: token });
     } else {
       response.status(401).send({ msg: "Invalid credentials" });
@@ -51,9 +61,31 @@ async function loginUserData(request, response) {
   }
 }
 
+async function userAvatar(request, response) {
+  console.log(request.file);
+  const imagePath = request.file.path;
+  const publicId = await usersService.uploadImage(imagePath);
+  // users.findAll({
+  //   include: [{
+  //     model: Task,
+  //     required: true,
+  //     right: true // has no effect, will create an inner join
+  //   }]
+  // });
+  response.send({ msg: "Upload", url: publicId.secure_url });
+}
+
 export default {
   postDataByID,
   getUserData,
   deleteUserDataByID,
   loginUserData,
+  userAvatar,
 };
+
+// const user1 = await users.create({
+//   avatar: publicId.secure_url,
+//   where: {
+//     username: username,
+//   },
+// });
