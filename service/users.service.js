@@ -54,26 +54,24 @@ const uploadImage = async (imagePath) => {
   }
 };
 
-async function userAvatar(token, url) {
-  const checkToken = await session.findOne({
+async function userAvatarUpadte(user_id, url) {
+  return await users.update(
+    { avatar: url },
+    {
+      where: {
+        id: user_id,
+      },
+    }
+  );
+}
+
+async function sessionCheckToken(token) {
+  return await session.findOne({
     where: {
       token: token,
       expiry: false,
     },
   });
-  console.log(checkToken);
-  if (checkToken) {
-    return await users.update(
-      { avatar: url },
-      {
-        where: {
-          id: checkToken.dataValues.user_id,
-        },
-      }
-    );
-  } else {
-    return { msg: "Login Again" };
-  }
 }
 
 async function getuserDataById(id, token) {
@@ -99,6 +97,7 @@ export default {
   distoryMovieDataByID,
   getUserbyname,
   uploadImage,
-  userAvatar,
+  sessionCheckToken,
+  userAvatarUpadte,
   getuserDataById,
 };

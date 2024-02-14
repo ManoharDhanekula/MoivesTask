@@ -67,8 +67,9 @@ async function userAvatar(request, response) {
   const imagePath = request.file.path;
   const tokenId = request.header("x-auth-token");
   const publicId = await usersService.uploadImage(imagePath);
-  const userAvatarUpadte = usersService.userAvatar(
-    tokenId,
+  const userId = await usersService.sessionCheckToken(tokenId);
+  const userAvatarUpadte = await usersService.userAvatarUpadte(
+    userId.dataValues.user_id,
     publicId.secure_url
   );
   response.send({
