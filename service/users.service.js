@@ -29,6 +29,7 @@ async function getUserbyname(username) {
     },
   });
 }
+
 async function distoryMovieDataByID(id) {
   return await users.destroy({
     where: {

@@ -40,15 +40,16 @@ async function deleteUserDataByID(request, response) {
   // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
   console.log(findingUserRoleID.dataValues.role_id);
   if (findingUserRoleID.dataValues.role_id == 3) {
-    const userDataDelete = await usersService.distoryMovieDataByID(id);
-    console.log(userDataDelete);
-    const not_Found = { msg: "Not found" };
-    userDataDelete
-      ? response.send("Deleted")
-      : response.status(404).send(not_Found);
-    // } catch (err) {
-    //   response.send({ msg: err });
-    // }
+    try {
+      const userDataDelete = await usersService.distoryMovieDataByID(id);
+      console.log(userDataDelete);
+      const not_Found = { msg: "Not found" };
+      userDataDelete
+        ? response.send("Deleted")
+        : response.status(404).send(not_Found);
+    } catch (err) {
+      response.send({ msg: err });
+    }
   }
 }
 
