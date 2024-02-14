@@ -2,6 +2,7 @@ import { users } from "../model/users.model.js";
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
 import { session } from "../model/session.model.js";
+import { role } from "../model/role.model.js";
 
 async function displayingData() {
   return await users.findAll();
@@ -17,7 +18,7 @@ async function postingData(username, password) {
       password: hashPassword,
     });
   } catch (error) {
-    return { msg: error.errors.map((x) => x.message).join() };
+    return { msg: error };
   }
 }
 
@@ -74,6 +75,22 @@ async function sessionCheckToken(token) {
   });
 }
 
+async function checkingRoleID(userid) {
+  return await users.findOne({
+    where: {
+      id: userid,
+    },
+  });
+}
+
+async function checkingRoleDatabyId(roleid) {
+  return await role.findOne({
+    where: {
+      id: roleid,
+    },
+  });
+}
+
 async function getuserDataById(id, token) {
   const checkId = await users.findOne({
     where: {
@@ -98,6 +115,8 @@ export default {
   getUserbyname,
   uploadImage,
   sessionCheckToken,
+  checkingRoleID,
+  checkingRoleDatabyId,
   userAvatarUpadte,
   getuserDataById,
 };

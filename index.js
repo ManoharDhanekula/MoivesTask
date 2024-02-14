@@ -11,19 +11,17 @@ import usersRoute from "./routes/users.router.js";
 import { users } from "./model/users.model.js";
 import { role } from "./model/role.model.js";
 import { session } from "./model/session.model.js";
+import { seedData } from "./written.js";
 
 try {
   await sequelize.authenticate();
   await sequelize.sync();
   console.log("Connection has been established successfully.");
+
+  // await seedData();
 } catch (error) {
   console.error("Unable to connect to the database:", error);
 }
-// const user1 = await users.create({
-//   username: "Seetha",
-//   password: "password@123",
-//   roleid: 22,
-// });
 
 // const join = await users.findAll({
 //   include: [

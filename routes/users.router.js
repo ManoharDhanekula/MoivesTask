@@ -21,7 +21,7 @@ const route = express.Router();
 route.route("/").get(auth, usersController.getUserData);
 route.route("/signUp").post(usersController.postDataByID);
 
-route.route("/:id").delete(usersController.deleteUserDataByID);
+route.route("/:id").delete(auth, usersController.deleteUserDataByID);
 route.route("/signIn").post(usersController.loginUserData);
 
 route

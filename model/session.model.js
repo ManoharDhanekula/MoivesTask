@@ -23,8 +23,9 @@ const session = sequelize.define(
     // Other model options go here
   }
 );
-session.belongsTo(users, { foreignKey: "user_id" });
+users.hasMany(session, { onDelete: "cascade", hooks: true });
 users.hasMany(session, { foreignKey: "user_id" });
+session.belongsTo(users, { foreignKey: "user_id" });
 // `sequelize.define` also returns the model
 console.log(session === sequelize.models.session); // true
 

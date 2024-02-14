@@ -3,6 +3,7 @@ import { sequelize } from "../config.js";
 import { role } from "./role.model.js";
 // import { session } from "./session.model.js";
 // import { session } from "./session.model.js";
+// import { session } from "./session.model.js";
 
 const users = sequelize.define(
   "users",
@@ -21,13 +22,19 @@ const users = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 2,
+    },
   },
   {
     // Other model options go here
   }
 );
-users.belongsTo(role, { foreignKey: "roleId" });
-role.hasMany(users, { foreignKey: "roleId" });
+users.belongsTo(role, { foreignKey: "role_id" });
+role.hasMany(users, { foreignKey: "role_id" });
+
 // `sequelize.define` also returns the model
 console.log(users === sequelize.models.users); // true
 

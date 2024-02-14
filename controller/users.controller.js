@@ -31,12 +31,25 @@ async function getUserData(request, response) {
 
 async function deleteUserDataByID(request, response) {
   const { id } = request.params;
-  const userDataDelete = usersService.distoryMovieDataByID(id);
-  console.log(userDataDelete);
-  const not_Found = { msg: "Not found" };
-  userDataDelete
-    ? response.send("Deleted")
-    : response.status(404).send(not_Found);
+  const tokenId = request.header("x-auth-token");
+  const sessionToken = await usersService.sessionCheckToken(tokenId);
+  const findingUserRoleID = await usersService.checkingRoleID(
+    sessionToken.dataValues.user_id
+  );
+  console.log(sessionToken.dataValues.user_id);
+  // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
+  console.log(findingUserRoleID.dataValues.role_id);
+  if (findingUserRoleID.dataValues.role_id == 3) {
+    const userDataDelete = await usersService.distoryMovieDataByID(id);
+    console.log(userDataDelete);
+    const not_Found = { msg: "Not found" };
+    userDataDelete
+      ? response.send("Deleted")
+      : response.status(404).send(not_Found);
+    // } catch (err) {
+    //   response.send({ msg: err });
+    // }
+  }
 }
 
 async function loginUserData(request, response) {
