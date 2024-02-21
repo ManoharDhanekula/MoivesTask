@@ -13,14 +13,15 @@ async function postDataByID(request, response) {
   console.log(request.body);
 
   const { username, password } = request.body;
-  if (password.length < 8) {
-    response.status(404).send("Password must be in gearter than 8");
-  } else {
-    const userDataPost = usersService.postingData(username, password);
+  const passwordStrength = await usersService.isStrongPassword(password);
+  if (passwordStrength) {
+    const userDataPost = await usersService.postingData(username, password);
     const not_Found = { msg: "Not Inserted" };
     userDataPost
-      ? response.send(await userDataPost)
+      ? response.send(userDataPost)
       : response.status(404).send(not_Found);
+  } else {
+    response.status(404).send("Password Requirement Not Reach");
   }
 }
 

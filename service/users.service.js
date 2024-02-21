@@ -8,6 +8,19 @@ async function displayingData() {
   return await users.findAll();
 }
 
+function isStrongPassword(password) {
+  const capital = /[A-Z]/;
+  const number = /[0-9]/;
+  const symbol = /[^A-Za-z0-9]/;
+  const length = password.length >= 8;
+  return (
+    capital.test(password) &&
+    number.test(password) &&
+    symbol.test(password) &&
+    length
+  );
+}
+
 async function postingData(username, password) {
   const no_of_round = 10;
   const salt = await bcrypt.genSalt(no_of_round);
@@ -18,7 +31,7 @@ async function postingData(username, password) {
       password: hashPassword,
     });
   } catch (error) {
-    return { msg: error };
+    return { msg: error.errors[0].message };
   }
 }
 
@@ -120,4 +133,5 @@ export default {
   checkingRoleDatabyId,
   userAvatarUpadte,
   getuserDataById,
+  isStrongPassword,
 };

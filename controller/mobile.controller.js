@@ -1,7 +1,7 @@
 import { Mobile } from "../model/mobile.model.js";
 import mobileService from "../service/mobile.service.js";
 import usersService from "../service/users.service.js";
-
+import { Op } from "sequelize";
 async function postDataByID(request, response) {
   console.log(request.body);
   const tokenId = request.header("x-auth-token");
@@ -98,7 +98,13 @@ async function ramByItems(req, res) {
 
     const searchData = await Mobile.findAll({
       where: {
-        ram: searchTerm,
+        [Op.or]: [
+          { brand: { [Op.like]: `%${searchTerm}%` } },
+          { title: { [Op.like]: `%${searchTerm}%` } },
+          { os: { [Op.like]: `%${searchTerm}%` } },
+          { ram: searchTerm },
+          { rating: searchTerm },
+        ],
       },
     });
 

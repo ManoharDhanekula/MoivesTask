@@ -36,7 +36,7 @@ try {
 // console.log(join);
 
 const app = express();
-app.use(express.json()); // mibble-ware
+app.use(express.json()); // middle-ware
 app.use(cors());
 app.use(morgan("dev"));
 
