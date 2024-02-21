@@ -8,13 +8,13 @@ route
   .route("/")
   // .get(mobileController.getAllMobileData)
   .post(auth, mobileController.postDataByID)
-  .get(auth, mobileController.paginationForMobilesData);
-route.route("/sortBy").get(auth, mobileController.sortByItems);
-route.route("/price").get(auth, mobileController.priceByItems);
-route.route("/search").get(auth, mobileController.ramByItems);
+  .get(mobileController.paginationForMobilesData);
+route.route("/sortBy").get(mobileController.sortByItems);
+route.route("/price").get(mobileController.priceByItems);
+route.route("/search").get(mobileController.ramByItems);
 route
   .route("/:id")
-  .get(auth, mobileController.getMobileDataByID)
+  .get(mobileController.getMobileDataByID)
   .put(auth, mobileController.putMobileDataByID)
   .delete(auth, mobileController.deleteMobileDataByID);
 
