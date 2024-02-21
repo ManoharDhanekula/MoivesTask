@@ -12,7 +12,10 @@ async function postDataByID(request, response) {
   console.log(sessionToken.dataValues.user_id);
   // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
   console.log(findingUserRoleID.dataValues.role_id);
-  if (findingUserRoleID.dataValues.role_id == 3) {
+  if (
+    findingUserRoleID.dataValues.role_id == 3 ||
+    findingUserRoleID.dataValues.role_id == 1
+  ) {
     try {
       const { brand, title, url, rating, image, os, ram, price } = request.body;
       const mobileDataPost = mobileService.postingData(
@@ -142,7 +145,10 @@ async function putMobileDataByID(request, response) {
   console.log(sessionToken.dataValues.user_id);
   // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
   console.log(findingUserRoleID.dataValues.role_id);
-  if (findingUserRoleID.dataValues.role_id == 3) {
+  if (
+    findingUserRoleID.dataValues.role_id == 3 ||
+    findingUserRoleID.dataValues.role_id == 1
+  ) {
     try {
       const { brand, title, url, rating, image, os, ram, price } = request.body;
       const mobileDataUpdate = mobileService.updatingMobileDataByID(

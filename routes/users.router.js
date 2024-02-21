@@ -28,6 +28,7 @@ route
   .route("/pic")
   .post(auth, upload.single("avatar"), usersController.userAvatar);
 
+route.route("/UpdateAdmin/:id").post(usersController.updateAdmin);
 route.route("/logOut/:id").post(usersController.expiryLogout);
 
 export default route;

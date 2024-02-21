@@ -34,7 +34,10 @@ async function getUserData(request, response) {
   console.log(sessionToken.dataValues.user_id);
   // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
   console.log(findingUserRoleID.dataValues.role_id);
-  if (findingUserRoleID.dataValues.role_id == 3) {
+  if (
+    findingUserRoleID.dataValues.role_id == 3 ||
+    findingUserRoleID.dataValues.role_id == 1
+  ) {
     try {
       const userData = usersService.displayingData();
       response.send(await userData);
@@ -99,7 +102,7 @@ async function userAvatar(request, response) {
   const tokenId = request.header("x-auth-token");
   const publicId = await usersService.uploadImage(imagePath);
   const userId = await usersService.sessionCheckToken(tokenId);
-  const userAvatarUpadte = await usersService.userAvatarUpadte(
+  const userAvatarUpdate = await usersService.userAvatarUpdate(
     userId.dataValues.user_id,
     publicId.secure_url
   );
@@ -109,10 +112,32 @@ async function userAvatar(request, response) {
   });
 }
 
+async function updateAdmin(request, response) {
+  const { id } = request.params;
+  const tokenId = request.header("x-auth-token");
+  const sessionToken = await usersService.sessionCheckToken(tokenId);
+  const findingUserRoleID = await usersService.checkingRoleID(
+    sessionToken.dataValues.user_id
+  );
+  console.log(sessionToken.dataValues.user_id);
+  // const findingRoleData = await usersService.checkingRoleDatabyId(findingUserRoleID.dataValues.role_id)
+  console.log(findingUserRoleID.dataValues.role_id);
+  if (findingUserRoleID.dataValues.role_id == 3) {
+    try {
+      const userAdmin = usersService.userAdminUpdate(id);
+      response.send({ msg: "Updated" });
+    } catch (err) {
+      response.send({ msg: err });
+    }
+  } else {
+    response.send("NoT Authorization");
+  }
+}
+
 async function expiryLogout(request, response) {
   const { id } = request.params;
   const tokenId = request.header("x-auth-token");
-  const userAvatarUpadte = usersService.getuserDataById(id, tokenId);
+  const userAvatarUpdate = usersService.getuserDataById(id, tokenId);
 
   response.send("LogOut SucessFully");
 }
@@ -123,5 +148,6 @@ export default {
   deleteUserDataByID,
   loginUserData,
   userAvatar,
+  updateAdmin,
   expiryLogout,
 };

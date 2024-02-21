@@ -13,6 +13,8 @@ function isStrongPassword(password) {
   const number = /[0-9]/;
   const symbol = /[^A-Za-z0-9]/;
   const length = password.length >= 8;
+
+  //The test method of regular expressions is used to check if the password contains at least one uppercase letter,one number, and one symbol.
   return (
     capital.test(password) &&
     number.test(password) &&
@@ -69,9 +71,20 @@ const uploadImage = async (imagePath) => {
   }
 };
 
-async function userAvatarUpadte(user_id, url) {
+async function userAvatarUpdate(user_id, url) {
   return await users.update(
     { avatar: url },
+    {
+      where: {
+        id: user_id,
+      },
+    }
+  );
+}
+
+async function userAdminUpdate(user_id) {
+  return await users.update(
+    { role_id: 1 },
     {
       where: {
         id: user_id,
@@ -131,7 +144,8 @@ export default {
   sessionCheckToken,
   checkingRoleID,
   checkingRoleDatabyId,
-  userAvatarUpadte,
+  userAvatarUpdate,
+  userAdminUpdate,
   getuserDataById,
   isStrongPassword,
 };
