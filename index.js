@@ -10,6 +10,8 @@ import mobileRoute from "./routes/mobile.routes.js";
 import usersRoute from "./routes/users.router.js";
 import { users } from "./model/users.model.js";
 import { role } from "./model/role.model.js";
+
+import reviewRoute from "./routes/review.routes.js";
 import { session } from "./model/session.model.js";
 import { seedData } from "./written.js";
 
@@ -49,4 +51,5 @@ app.get("/", (request, response) => {
 app.use("/movies", moviesRoute);
 app.use("/mobile", mobileRoute);
 app.use("/users", usersRoute);
+app.use("/review", reviewRoute);
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));

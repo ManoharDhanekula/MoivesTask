@@ -1,9 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config.js";
 import { role } from "./role.model.js";
-// import { session } from "./session.model.js";
-// import { session } from "./session.model.js";
-// import { session } from "./session.model.js";
 
 const users = sequelize.define(
   "users",
